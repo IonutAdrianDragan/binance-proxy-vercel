@@ -1,10 +1,8 @@
-// Serverless Function (Node 18) – /api/v3/account proxy (balances)
-// Cheile stau in ENV (Vercel), nu in foaie.
-export default async function handler(req, res) {
-  try {
-    const { default: crypto } = await import('crypto');
+// Serverless Function: /api/account
+const crypto = require('crypto');
 
-    // Optional: token simplu de acces (adaugat in ENV PROXY_TOKEN)
+module.exports = async (req, res) => {
+  try {
     const needToken = process.env.PROXY_TOKEN;
     if (needToken && req.query.token !== needToken) {
       res.status(401).json({ error: 'unauthorized' });
@@ -18,11 +16,11 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Folosim timpul serverului Binance ca sa evitam eroarea -1021 (timestamp)
+    // sincronizare cu timpul Binance
     const tResp = await fetch('https://api.binance.com/api/v3/time');
     const { serverTime } = await tResp.json();
 
-    const recvWindow = 20000; // 20s, generos
+    const recvWindow = 20000;
     const qs = `timestamp=${serverTime}&recvWindow=${recvWindow}`;
     const sig = crypto.createHmac('sha256', secret).update(qs).digest('hex');
 
@@ -35,4 +33,4 @@ export default async function handler(req, res) {
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }
-}
+};
