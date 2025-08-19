@@ -1,8 +1,7 @@
 {
   "functions": {
     "api/*.js": {
-      "runtime": "nodejs18.x",
-      "regions": ["fra1", "cdg1", "arn1"]
+      "runtime": "nodejs18.x"
     }
   }
 }
