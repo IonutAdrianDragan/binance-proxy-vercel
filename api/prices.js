@@ -1,7 +1,7 @@
-// api/prices.js
-export default async function handler(req, res) {
+// /api/prices → proxy EU pt /api/v3/ticker/price (listă completă sau ?symbol=XYZ)
+module.exports = async (req, res) => {
   try {
-    const { symbol } = req.query || {};
+    const symbol = req.query && req.query.symbol;
     const base = 'https://api.binance.com/api/v3/ticker/price';
     const url = symbol ? `${base}?symbol=${encodeURIComponent(symbol)}` : base;
 
@@ -14,4 +14,4 @@ export default async function handler(req, res) {
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }
-}
+};
