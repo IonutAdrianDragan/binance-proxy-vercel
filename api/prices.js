@@ -1,4 +1,4 @@
-// /api/prices → proxy EU pt /api/v3/ticker/price (listă completă sau ?symbol=XYZ)
+// /api/prices  → proxy pentru Binance public /api/v3/ticker/price
 module.exports = async (req, res) => {
   try {
     const symbol = req.query && req.query.symbol;
